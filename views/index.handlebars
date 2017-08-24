@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="section">
+        <form class="create-update-form" action="/" method="POST">
+            <div class="form-group">
+                <label for="ca">Supercar:</label>
+                <input type="text" id="carInput" name="car_name" placeholder="Add a car!">
+                <button class="btnColor btn btn-success" type="submit">Choose this Car</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="notOwned section">
+        <h2>Not Yet Owned</h2>
+        <table class ="table">
+            <thead>
+            <tr>
+                <th class="titleCenter">Not Owned</th>
+                <th class="titleCenter">Owned</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            {{#each cars}}
+                {{#unless this.owned}}
+                        <td>
+                            {{this.car_name}}
+                        </td>
+                        <td>
+                            <form action="/{{this.id}}  ?_method=PUT" method="POST">
+                                <input type="hidden" name="owned" value="true">
+                                <button class="btnColor btn btn-success" type="submit">Own it!</button>
+                            </form>
+                        </td>
+                {{/unless}}
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="garage section">
+        <thread>
+            <h2>Garage</h2>
+        </thread>
+        <table class ="table">
+            {{#each cars}}
+                {{#if this.owned}}
+                    <tr>
+                        {{this.car_name}}
+                        <form action="/{{this.id}}?_method=DELETE" method="POST">
+                            <input type="hidden" name="id" value="{{this.id}}">
+                            <button class="btnColor btn btn-danger" type="submit">Sell</button>
+                        </form>
+                    </tr>
+                    <br><br>
+                {{/if}}
+            {{/each}}
+        </table>
+    </div>
+</div>
