@@ -1,4 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
+
     var Supercar = sequelize.define("Supercar", {
         car_name: DataTypes.STRING,
         collected: {

@@ -1,35 +1,36 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var methodOverride = require("method-override");
+var express = require('express'),
+    bodyParser = require('body-parser'),
+    methodOverride = require('method-override'),
+    db = require('./models');
 
-var db = require("./models");
-
+// Sets up express Server
 var app = express();
-// Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static(__dirname + "/public"));
+var PORT = process.env.PORT || 3000;
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-// override with POST having ?_method=DELETE
+// Sets up bodyParser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+
+// serve static content from public dir
+app.use(express.static(process.cwd() + "/public"));
+// enable method override
 app.use(methodOverride("_method"));
+
+// Set Handlebars.
 var exphbs = require("express-handlebars");
 
-app.engine("handlebars", exphbs({
-    defaultLayout: "main"
-}));
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-var routes = require("./controllers/cars_controller");
+// app.use("/", routes);
+require("./controllers/cars_controller.js")(app);
 
-app.use("/", routes);
-app.use("/update", routes);
-app.use("/create", routes);
-
-// listen on port 3306
-var port = process.env.PORT || 3000;
-db.sequelize.sync().then(function () {
-    app.listen(port);
+// sync sequelize models and start express server
+db.sequelize.sync({}).then(function() {
+    // starting server w/ listener
+    app.listen(PORT, function() {
+        console.log("App listening on PORT " + PORT);
+    });
 });
-

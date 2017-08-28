@@ -1,77 +1,49 @@
+html {
+    height: 100%;
+}
 * {
     margin: 0;
     padding: 0;
-    font-weight: bold;
-    color: white;
-    font-size: 20px;
 }
 body {
     min-height: 100%;
     text-align: center;
     background: url(images/huracans2.jpg);
-    background-size: cover;
-}
 
-.btnColor {
-    color: black;
 }
-
 /*Header*/
-.container-top {
+.container {
     text-align: center;
+    color: white;
 }
 .container-top h1 {
+    border-top-style: solid;
+    border-width: 10px;
+    border-bottom-style: solid;
     width: 100px;
     margin: 50px auto;
 }
-/*Not Devoured*/
+/*Not Owned*/
 .container-left {
     border: 1px solid;
     width: 33.33%;
     height: 100%;
     float: left;
+    color: white;
 }
-.titleCenter  {
-    text-align: center;
-}
-/*Add a burger*/
+/*Add a car*/
 .container-middle {
     border: 1px solid;
     float: left;
     width: 33.33%;
     height: 100%;
+    color: white;
 }
-
-#carInput {
-    color: black;
-}
-#ca {
-    color: black;
-}
-
-/*Owned Cars*/
+/*Owned*/
 .container-right {
     border: 1px solid;
     float: right;
     width: 33.33%;
     height: 100%;
-}
-
-.section {
-    background: rgba(46, 32, 32, 0.71);
-    border: 1px solid white;
-}
-table {
-    margin: 0 auto;
-}
-
-.garage {
-    width: 500px;
-    height: 500px;
-    float: left;
-}
-.notOwned {
-    width: 500px;
-    height: 500px;
-    float: right;
+    color: white;
 }

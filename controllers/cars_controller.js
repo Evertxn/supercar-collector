@@ -1,50 +1,47 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../models/supercars');
+var db = require("../models");
 
+module.exports = function(app) {
 
-router.get('/', function (req, res) {
-    res.redirect('/supercars');
-});
-
-
-router.get('/supercars', function (req, res) {
-    //express callback response
-    db.Supercar.findAll()
-        .then(function (dbSupercar) {
-            console.log(dbSupercar);
-            var hbsObject = { supercars: dbSupercar};
-            return res.render('index', hbsObject);
+    // Create routes
+    app.get('/', function(req, res) {
+        res.redirect('/index');
     });
-});
 
-// post route -> back to index
-router.post("/supercars/create", function (req, res) {
-    // takes the request object using it as input
-    db.Supercar.create({
-        car_name: req.body.car_name
-        })
-        .then(function(dbSupercar) {
-        console.log(dbSupercar);
-        res.redirect('/');
+    // Render page with all objects from burgers table in burgers_db
+    app.get("/index", function(req, res) {
+        db.Supercar.findAll({}).then(function(data) {
+            console.log(data);
+            var hbsObject = {
+                foobar: data
+            };
+            console.log(hbsObject);
+            res.render("index", hbsObject);
+        });
     });
-});
 
-// put route -> back to index
-router.put("/supercars/update/", function(req, res) {
-    db.Supercar.update(
-        {
+    app.post('/index', function(req, res) {
+        db.Supercar.create({
+            car_name: req.body.name
+        }).then(function (results) {
+            res.redirect('/index');
+        });
+    });
+
+    // Put route to /index/:id when updating car to collected set as true
+    app.put("/:id", function(req, res) {
+        console.log("id to update: ", req.params.id);
+        db.Supercar.update({
             collected: true
-        },
-        {
+        }, {
             where: {
-                id: req.body.id
+                id: req.params.id
             }
-        }
-    ).then(function (dbSupercar){
-        console.log(dbSupercar);
-        res.redirect("/");
-    });
-});
+        }).then(function(results) {
+            res.redirect("/index");
+        });
 
-module.exports = router;
+    });
+
+
+
+};
